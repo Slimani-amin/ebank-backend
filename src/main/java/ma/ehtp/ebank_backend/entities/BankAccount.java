@@ -2,19 +2,17 @@ package ma.ehtp.ebank_backend.entities;
 
 import java.util.Date;
 import java.util.List;
-
-import org.hibernate.annotations.ManyToAny;
 import org.springframework.data.annotation.Id;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.ehtp.ebank_backend.enums.AccountStatus;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TYPE", length = 4)
 @Data @NoArgsConstructor @AllArgsConstructor
 public class BankAccount {
     @Id
