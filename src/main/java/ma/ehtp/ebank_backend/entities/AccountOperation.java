@@ -14,16 +14,40 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.ehtp.ebank_backend.enums.OperationType;
 
+/**
+ * Entity representing an account operation.
+ */
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor
 public class AccountOperation {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /**
+     * Unique identifier for the operation.
+     */
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    /**
+     * Date of the operation.
+     */
     private Date operationDate;
+    
+    /**
+     * Amount of the operation.
+     */
     private double amount;
+    
+    /**
+     * Type of the operation (e.g. deposit, withdrawal).
+     */
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
+    
+    /**
+     * Associated bank account.
+     */
     @ManyToOne
     private BankAccount bankAccount;
-
 }
