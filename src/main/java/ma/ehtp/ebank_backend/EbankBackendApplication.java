@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import ma.ehtp.ebank_backend.entities.AccountOperation;
+import ma.ehtp.ebank_backend.entities.BankAccount;
 import ma.ehtp.ebank_backend.entities.CurrentAccount;
 import ma.ehtp.ebank_backend.entities.Customer;
 import ma.ehtp.ebank_backend.entities.SavingAccount;
@@ -18,6 +19,7 @@ import ma.ehtp.ebank_backend.enums.OperationType;
 import ma.ehtp.ebank_backend.repositories.AccountOperationRepository;
 import ma.ehtp.ebank_backend.repositories.BankAccountRepository;
 import ma.ehtp.ebank_backend.repositories.CustomerRepository;
+import ma.ehtp.ebank_backend.services.BankService;
 
 @SpringBootApplication
 public class EbankBackendApplication {
@@ -27,6 +29,17 @@ public class EbankBackendApplication {
 	}
 
     @Bean
+	CommandLineRunner commandLineRunner(BankService bankService) {
+		return args -> {
+			bankService.consulter();
+			
+
+
+
+		};
+	}
+
+    //@Bean
 	CommandLineRunner start(CustomerRepository customerRepository,
 			AccountOperationRepository accountOperationRepository,
 			BankAccountRepository bankAccountRepository) {
@@ -72,6 +85,8 @@ public class EbankBackendApplication {
 					accountOperation.setBankAccount(acc);
 					accountOperationRepository.save(accountOperation);
 				}
+				
+
 			});
 		};
 	}
