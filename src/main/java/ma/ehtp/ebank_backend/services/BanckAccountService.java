@@ -10,6 +10,7 @@ import ma.ehtp.ebank_backend.exceptions.BalanceNotSufficientExeption;
 import ma.ehtp.ebank_backend.exceptions.BankAccountNotFoundException;
 import ma.ehtp.ebank_backend.exceptions.CustomerNotFoundException;
 
+
 public interface BanckAccountService {
     Customer saveCustomer(Customer customer);
     CurrentAccount saveCurrentAccount(double initalBalance, double overDraft, Long customerID) throws CustomerNotFoundException;
@@ -18,7 +19,7 @@ public interface BanckAccountService {
     BankAccount getBankAccount(String accountID) throws BankAccountNotFoundException;
     void debit(String accountID, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientExeption;
     void credit(String accountID, double amount, String description) throws BankAccountNotFoundException;
-    void transfer(String accountIdSource,String accountIdDestination, double amount);
+    void transfer(String accountIdSource,String accountIdDestination, double amount)throws BankAccountNotFoundException, BalanceNotSufficientExeption;
     
 
 }

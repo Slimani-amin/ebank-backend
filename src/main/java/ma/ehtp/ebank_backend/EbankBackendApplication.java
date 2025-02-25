@@ -19,6 +19,7 @@ import ma.ehtp.ebank_backend.enums.OperationType;
 import ma.ehtp.ebank_backend.repositories.AccountOperationRepository;
 import ma.ehtp.ebank_backend.repositories.BankAccountRepository;
 import ma.ehtp.ebank_backend.repositories.CustomerRepository;
+import ma.ehtp.ebank_backend.services.BanckAccountService;
 import ma.ehtp.ebank_backend.services.BankService;
 
 @SpringBootApplication
@@ -29,9 +30,14 @@ public class EbankBackendApplication {
 	}
 
     @Bean
-	CommandLineRunner commandLineRunner(BankService bankService) {
+	CommandLineRunner commandLineRunner(BanckAccountService banckAccountService) {
 		return args -> {
-			bankService.consulter();
+			Stream.of("kamal", "doha", "jihan").forEach(name->{
+				Customer customer = new Customer();
+				customer.setName(name);
+				customer.setEmail(name+"@gmail.com");
+
+			});
 			
 
 
