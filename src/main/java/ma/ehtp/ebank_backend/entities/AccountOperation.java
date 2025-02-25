@@ -50,4 +50,5 @@ public class AccountOperation {
      */
     @ManyToOne
     private BankAccount bankAccount;
+    private String description;
 }
