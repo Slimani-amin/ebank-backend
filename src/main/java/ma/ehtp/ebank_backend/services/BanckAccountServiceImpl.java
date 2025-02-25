@@ -17,6 +17,7 @@ import ma.ehtp.ebank_backend.entities.CurrentAccount;
 import ma.ehtp.ebank_backend.entities.Customer;
 import ma.ehtp.ebank_backend.entities.SavingAccount;
 import ma.ehtp.ebank_backend.enums.OperationType;
+import ma.ehtp.ebank_backend.exceptions.BalanceNotSufficientExeption;
 import ma.ehtp.ebank_backend.exceptions.BankAccountNotFoundException;
 import ma.ehtp.ebank_backend.exceptions.CustomerNotFoundException;
 import ma.ehtp.ebank_backend.repositories.AccountOperationRepository;
@@ -89,14 +90,21 @@ public class BanckAccountServiceImpl implements BanckAccountService{
       }
 
       @Override
-      public  void debit(String accountID, double amount, String description) throws BankAccountNotFoundException{
+      public  void debit(String accountID, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientExeption{
         BankAccount bankAccount = getBankAccount(accountID);
+        if(bankAccount.getBalance()<amount){
+            throw new BalanceNotSufficientExeption("Balance not Sufficient");
+        }
         AccountOperation accountOperation = new AccountOperation();
         accountOperation.setAmount(amount);
         accountOperation.setDescription(description);
         accountOperation.setOperationDate(new Date());
         accountOperation.setOperationType(OperationType.DEBIT);
+        bankAccount.setBalance(bankAccount.getBalance()-amount);
+        accountOperation.setBankAccount(bankAccount);
         bankAccount.getAccountOperations().add(accountOperation);
+        bankAccountRepository.save(bankAccount);
+        accountOperationRepository.save(accountOperation);
 
 
 
@@ -110,9 +118,18 @@ public class BanckAccountServiceImpl implements BanckAccountService{
         accountOperation.setDescription(description);
         accountOperation.setOperationDate(new Date());
         accountOperation.setOperationType(OperationType.CREDIT);
+        bankAccount.setBalance(bankAccount.getBalance()+amount);
         bankAccount.getAccountOperations().add(accountOperation);
+        accountOperation.setBankAccount(bankAccount);
+        bankAccountRepository.save(bankAccount);
+        accountOperationRepository.save(accountOperation);
       }
-
+   
+       @Override
+       public void transfer(String accountIdSource,String accountIdDestination, double amount) throws BankAccountNotFoundException, BalanceNotSufficientExeption{
+        debit(accountIdSource, amount, "Transfer to "+accountIdDestination);
+        credit(accountIdDestination, amount, "Transfer from "+accountIdSource);
+       }
     
 
 
