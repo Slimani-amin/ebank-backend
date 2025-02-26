@@ -15,6 +15,7 @@ import ma.ehtp.ebank_backend.enums.AccountStatus;
 @DiscriminatorColumn(name = "TYPE", length = 4)
 @Data @NoArgsConstructor @AllArgsConstructor
 public abstract class BankAccount {
+    
     @Id
     private String id;
     private double balance;

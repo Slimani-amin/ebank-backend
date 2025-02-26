@@ -2,9 +2,7 @@ package ma.ehtp.ebank_backend.services;
 
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
-
-import javax.management.RuntimeErrorException;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +49,7 @@ public class BanckAccountServiceImpl implements BanckAccountService{
             CurrentAccount currentAccount = new CurrentAccount();
             currentAccount.setBalance(initalBalance);
             currentAccount.setCustomer(customer);
+            currentAccount.setId(UUID.randomUUID().toString());
             currentAccount.setCreatedAt(new Date());
             currentAccount.setOverDraft(overDraft);
             return bankAccountRepository.save(currentAccount);
@@ -60,13 +59,14 @@ public class BanckAccountServiceImpl implements BanckAccountService{
         }
 
      @Override 
-      public SavingAccount saveSavingBankAccount(double initalBalance, double interestRate, Long customerID) throws CustomerNotFoundException{
+      public SavingAccount saveSavingAccount(double initalBalance, double interestRate, Long customerID) throws CustomerNotFoundException{
         Customer customer = customerRepository.findById(customerID).orElse(null);
         if(customer == null){
             throw new CustomerNotFoundException("Customer not fond");
         }
         SavingAccount savingAccount = new SavingAccount();
         savingAccount.setBalance(initalBalance);
+        savingAccount.setId(UUID.randomUUID().toString());
         savingAccount.setCustomer(customer);
         savingAccount.setCreatedAt(new Date());
         savingAccount.setInterestRate(interestRate);
@@ -130,6 +130,13 @@ public class BanckAccountServiceImpl implements BanckAccountService{
         debit(accountIdSource, amount, "Transfer to "+accountIdDestination);
         credit(accountIdDestination, amount, "Transfer from "+accountIdSource);
        }
+
+       @Override 
+       public List<BankAccount> listBankAccount(){
+        return bankAccountRepository.findAll();
+       }
+
+
     
 
 

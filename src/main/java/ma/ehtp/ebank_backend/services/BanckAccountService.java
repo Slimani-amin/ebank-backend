@@ -14,12 +14,13 @@ import ma.ehtp.ebank_backend.exceptions.CustomerNotFoundException;
 public interface BanckAccountService {
     Customer saveCustomer(Customer customer);
     CurrentAccount saveCurrentAccount(double initalBalance, double overDraft, Long customerID) throws CustomerNotFoundException;
-    SavingAccount saveSavingBankAccount(double initalBalance, double interestRate, Long customerID) throws CustomerNotFoundException;
+    SavingAccount saveSavingAccount(double initalBalance, double interestRate, Long customerID) throws CustomerNotFoundException;
     List<Customer> listCustomers();
     BankAccount getBankAccount(String accountID) throws BankAccountNotFoundException;
     void debit(String accountID, double amount, String description) throws BankAccountNotFoundException, BalanceNotSufficientExeption;
     void credit(String accountID, double amount, String description) throws BankAccountNotFoundException;
     void transfer(String accountIdSource,String accountIdDestination, double amount)throws BankAccountNotFoundException, BalanceNotSufficientExeption;
+    List<BankAccount> listBankAccount();
     
 
 }
