@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ma.ehtp.ebank_backend.entities.Customer;
+import ma.ehtp.ebank_backend.mappers.CustomerDTO;
 import ma.ehtp.ebank_backend.services.BanckAccountService;
 
 @RestController
@@ -18,7 +18,7 @@ public class CustomerRestController {
     
        @GetMapping("/customers")
        
-      public List<Customer> customers(){
+      public List<CustomerDTO> customers(){
         return banckAccountService.listCustomers();
       }
 

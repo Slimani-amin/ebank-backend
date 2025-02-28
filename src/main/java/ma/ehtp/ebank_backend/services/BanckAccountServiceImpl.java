@@ -3,6 +3,8 @@ package ma.ehtp.ebank_backend.services;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import ma.ehtp.ebank_backend.enums.OperationType;
 import ma.ehtp.ebank_backend.exceptions.BalanceNotSufficientExeption;
 import ma.ehtp.ebank_backend.exceptions.BankAccountNotFoundException;
 import ma.ehtp.ebank_backend.exceptions.CustomerNotFoundException;
+import ma.ehtp.ebank_backend.mappers.CustomerDTO;
 import ma.ehtp.ebank_backend.repositories.AccountOperationRepository;
 import ma.ehtp.ebank_backend.repositories.BankAccountRepository;
 import ma.ehtp.ebank_backend.repositories.CustomerRepository;
@@ -30,6 +33,7 @@ public class BanckAccountServiceImpl implements BanckAccountService{
     private CustomerRepository customerRepository;
     private BankAccountRepository bankAccountRepository;
     private AccountOperationRepository accountOperationRepository;
+    private BankAccountMapper dtoMapper;
 
     @Override 
     public Customer saveCustomer(Customer customer){
@@ -76,8 +80,10 @@ public class BanckAccountServiceImpl implements BanckAccountService{
       }
 
       @Override
-      public List<Customer> listCustomers(){
-        return customerRepository.findAll();
+      public List<CustomerDTO> listCustomers(){
+        List<Customer> customers = customerRepository.findAll();
+        List<CustomerDTO> colec = customers.parallelStream().map(customer -> dtoMapper.fromCustomer(customer)).collect(Collectors.toList());
+        return colec;
       }
 
       @Override
