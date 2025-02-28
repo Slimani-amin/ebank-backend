@@ -142,6 +142,17 @@ public class BanckAccountServiceImpl implements BanckAccountService{
         return bankAccountRepository.findAll();
        }
 
+       @Override
+       public CustomerDTO getCustomer(Long id) throws CustomerNotFoundException{
+        Customer customer = new Customer();
+        customer = customerRepository.getReferenceById(id);
+        if(customer==null){
+          throw new CustomerNotFoundException("Customer not found");
+        }
+        return dtoMapper.fromCustomer(customer);
+
+       }
+
 
     
 
