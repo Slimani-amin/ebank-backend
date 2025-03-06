@@ -20,6 +20,7 @@ import ma.ehtp.ebank_backend.enums.OperationType;
 import ma.ehtp.ebank_backend.exceptions.BalanceNotSufficientExeption;
 import ma.ehtp.ebank_backend.exceptions.BankAccountNotFoundException;
 import ma.ehtp.ebank_backend.exceptions.CustomerNotFoundException;
+import ma.ehtp.ebank_backend.mappers.CustomerDTO;
 import ma.ehtp.ebank_backend.repositories.AccountOperationRepository;
 import ma.ehtp.ebank_backend.repositories.BankAccountRepository;
 import ma.ehtp.ebank_backend.repositories.CustomerRepository;
@@ -33,14 +34,14 @@ public class EbankBackendApplication {
 		SpringApplication.run(EbankBackendApplication.class, args);
 	}
 
-    @Bean
+    //@Bean
 	CommandLineRunner commandLineRunner(BanckAccountService banckAccountService) {
 		return args -> {
 			Stream.of("kamal", "doha", "jihan").forEach(name->{
-				Customer customer = new Customer();
-				customer.setName(name);
-				customer.setEmail(name+"@gmail.com");
-				banckAccountService.saveCustomer(customer);
+				CustomerDTO customerDTO = new CustomerDTO();
+				customerDTO.setName(name);
+				customerDTO.setEmail(name+"@gmail.com");
+				banckAccountService.saveCustomer(customerDTO);
 			});
 
             banckAccountService.listCustomers().forEach(customer->{
