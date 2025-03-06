@@ -3,7 +3,6 @@ package ma.ehtp.ebank_backend.services;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -154,6 +153,19 @@ public class BanckAccountServiceImpl implements BanckAccountService{
         return dtoMapper.fromCustomer(customer);
 
        }
+
+       @Override
+       public void deleteCustomer(Long customerId){
+        customerRepository.deleteById(customerId);
+       }
+
+       @Override 
+       public CustomerDTO updateCustomer(CustomerDTO customerDTO){
+        log.info("Update Customer");
+        Customer customer = dtoMapper.fromCustomerDTO(customerDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        return dtoMapper.fromCustomer(savedCustomer);
+    }
 
 
     

@@ -13,7 +13,7 @@ import ma.ehtp.ebank_backend.mappers.CustomerDTO;
 
 
 public interface BanckAccountService {
-    Customer saveCustomer(Customer customer);
+    CustomerDTO saveCustomer(CustomerDTO customerDTO);
     CurrentAccount saveCurrentAccount(double initalBalance, double overDraft, Long customerID) throws CustomerNotFoundException;
     SavingAccount saveSavingAccount(double initalBalance, double interestRate, Long customerID) throws CustomerNotFoundException;
     List<CustomerDTO> listCustomers();
@@ -23,6 +23,8 @@ public interface BanckAccountService {
     void transfer(String accountIdSource,String accountIdDestination, double amount)throws BankAccountNotFoundException, BalanceNotSufficientExeption;
     List<BankAccount> listBankAccount();
     CustomerDTO getCustomer(Long id) throws CustomerNotFoundException;
+    void deleteCustomer(Long customerId);
+    CustomerDTO updateCustomer(CustomerDTO customerDTO);
     
 
 }
