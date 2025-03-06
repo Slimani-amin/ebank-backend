@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.ehtp.ebank_backend.exceptions.CustomerNotFoundException;
-import ma.ehtp.ebank_backend.mappers.CustomerDTO;
+import ma.ehtp.ebank_backend.DTOs.CustomerDTO;
 import ma.ehtp.ebank_backend.services.BanckAccountService;
 import org.springframework.web.bind.annotation.PutMapping;
 

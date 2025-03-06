@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import ma.ehtp.ebank_backend.DTOs.BankAccountDTO;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import ma.ehtp.ebank_backend.entities.AccountOperation;
 import ma.ehtp.ebank_backend.entities.BankAccount;
@@ -20,11 +20,12 @@ import ma.ehtp.ebank_backend.enums.OperationType;
 import ma.ehtp.ebank_backend.exceptions.BalanceNotSufficientExeption;
 import ma.ehtp.ebank_backend.exceptions.BankAccountNotFoundException;
 import ma.ehtp.ebank_backend.exceptions.CustomerNotFoundException;
-import ma.ehtp.ebank_backend.mappers.CustomerDTO;
+import ma.ehtp.ebank_backend.DTOs.CustomerDTO;
 import ma.ehtp.ebank_backend.repositories.AccountOperationRepository;
 import ma.ehtp.ebank_backend.repositories.BankAccountRepository;
 import ma.ehtp.ebank_backend.repositories.CustomerRepository;
 import ma.ehtp.ebank_backend.services.BanckAccountService;
+import org.springframework.context.annotation.Bean;
 //import ma.ehtp.ebank_backend.services.BankService;
 
 @SpringBootApplication
@@ -34,7 +35,7 @@ public class EbankBackendApplication {
 		SpringApplication.run(EbankBackendApplication.class, args);
 	}
 
-    //@Bean
+    @Bean
 	CommandLineRunner commandLineRunner(BanckAccountService banckAccountService) {
 		return args -> {
 			Stream.of("kamal", "doha", "jihan").forEach(name->{
@@ -48,9 +49,9 @@ public class EbankBackendApplication {
 				try{
 					banckAccountService.saveCurrentAccount(Math.random()*9000, 9000,customer.getId());
 					banckAccountService.saveSavingAccount(Math.random()*12000, 9000,customer.getId());
-					List<BankAccount> bankAccounts = banckAccountService.listBankAccount();
+					List<BankAccountDTO> bankAccounts = banckAccountService.listBankAccount();
 
-					for(BankAccount account:bankAccounts){
+					for(BankAccountDTO account:bankAccounts){
 						for(int i=0; i<10;i++){
 							banckAccountService.credit(account.getId(), 10000+Math.random()*120000,"Credit");
 							banckAccountService.debit(account.getId(), 1000+Math.random()*9000,"Debit");

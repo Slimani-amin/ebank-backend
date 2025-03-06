@@ -1,4 +1,4 @@
-package ma.ehtp.ebank_backend.mappers;
+package ma.ehtp.ebank_backend.DTOs;
 
 import lombok.Data;
 
