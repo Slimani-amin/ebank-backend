@@ -11,7 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import ma.ehtp.ebank_backend.entities.AccountOperation;
-import ma.ehtp.ebank_backend.entities.BankAccount;
 import ma.ehtp.ebank_backend.entities.CurrentAccount;
 import ma.ehtp.ebank_backend.entities.Customer;
 import ma.ehtp.ebank_backend.entities.SavingAccount;
@@ -49,24 +48,30 @@ public class EbankBackendApplication {
 				try{
 					banckAccountService.saveCurrentAccount(Math.random()*9000, 9000,customer.getId());
 					banckAccountService.saveSavingAccount(Math.random()*12000, 9000,customer.getId());
-					List<BankAccountDTO> bankAccounts = banckAccountService.listBankAccount();
 
-					for(BankAccountDTO account:bankAccounts){
-						for(int i=0; i<10;i++){
-							banckAccountService.credit(account.getId(), 10000+Math.random()*120000,"Credit");
-							banckAccountService.debit(account.getId(), 1000+Math.random()*9000,"Debit");
-							
-							
-						}
-					}
-					
-				}	
+
+				}
 				catch(CustomerNotFoundException e){
-					e.printStackTrace();
-				}catch(BankAccountNotFoundException | BalanceNotSufficientExeption e){
 					e.printStackTrace();
 				}
 			});
+
+			List<BankAccountDTO> bankAccounts = banckAccountService.listBankAccount();
+
+
+			for(BankAccountDTO account:bankAccounts){
+				for(int i=0; i<10;i++){
+					try {
+						banckAccountService.credit(account.getId(), 10000 + Math.random() * 120000, "Credit");
+						banckAccountService.debit(account.getId(), 1000 + Math.random() * 9000, "Debit");
+					}
+					catch(BankAccountNotFoundException | BalanceNotSufficientExeption e){
+						e.printStackTrace();
+					}
+
+
+				}
+			}
 			
 
 			

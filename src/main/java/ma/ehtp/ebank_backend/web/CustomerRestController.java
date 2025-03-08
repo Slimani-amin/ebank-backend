@@ -2,6 +2,7 @@ package ma.ehtp.ebank_backend.web;
 
 import java.util.List;
 
+import ma.ehtp.ebank_backend.DTOs.AccountOperationDTO;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +51,8 @@ public class CustomerRestController {
       public void deleteCustomer(@PathVariable Long id){
         banckAccountService.deleteCustomer(id);
       }
+
+
 
 }
 

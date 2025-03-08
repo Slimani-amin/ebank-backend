@@ -2,16 +2,13 @@ package ma.ehtp.ebank_backend.services;
 
 import java.util.List;
 
-import ma.ehtp.ebank_backend.DTOs.BankAccountDTO;
-import ma.ehtp.ebank_backend.DTOs.CurrentBankAccountDTO;
-import ma.ehtp.ebank_backend.DTOs.SavingBankAccountDTO;
+import ma.ehtp.ebank_backend.DTOs.*;
 import ma.ehtp.ebank_backend.entities.BankAccount;
 import ma.ehtp.ebank_backend.entities.CurrentAccount;
 import ma.ehtp.ebank_backend.entities.SavingAccount;
 import ma.ehtp.ebank_backend.exceptions.BalanceNotSufficientExeption;
 import ma.ehtp.ebank_backend.exceptions.BankAccountNotFoundException;
 import ma.ehtp.ebank_backend.exceptions.CustomerNotFoundException;
-import ma.ehtp.ebank_backend.DTOs.CustomerDTO;
 
 
 public interface BanckAccountService {
@@ -27,6 +24,8 @@ public interface BanckAccountService {
     CustomerDTO getCustomer(Long id) throws CustomerNotFoundException;
     void deleteCustomer(Long customerId);
     CustomerDTO updateCustomer(CustomerDTO customerDTO);
+    List<AccountOperationDTO> accountHistory(String accountId);
+    AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException;
     
 
 }

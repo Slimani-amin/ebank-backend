@@ -1,14 +1,9 @@
 package ma.ehtp.ebank_backend.mappers;
 
-import ma.ehtp.ebank_backend.DTOs.CurrentBankAccountDTO;
-import ma.ehtp.ebank_backend.DTOs.SavingBankAccountDTO;
-import ma.ehtp.ebank_backend.entities.CurrentAccount;
-import ma.ehtp.ebank_backend.entities.SavingAccount;
+import ma.ehtp.ebank_backend.DTOs.*;
+import ma.ehtp.ebank_backend.entities.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-
-import ma.ehtp.ebank_backend.entities.Customer;
-import ma.ehtp.ebank_backend.DTOs.CustomerDTO;
 
 
 //MapStruct?
@@ -62,6 +57,35 @@ public class BankAccountMapperImpl implements BankAccountMapper {
         currentAccount.setCustomer(fromCustomerDTO(currentBankAccountDTO.getCustomerDTO()));
         return currentAccount;
     }
+
+    @Override
+    public AccountOperationDTO fromAccountOperation(AccountOperation accountOperation) {
+        AccountOperationDTO accountOperationDTO = new AccountOperationDTO();
+        BeanUtils.copyProperties(accountOperation, accountOperationDTO);
+        BankAccount bankAccount = accountOperation.getBankAccount();
+        if(bankAccount instanceof SavingAccount){
+            accountOperationDTO.setBankAccountDTO(fromSavingBankAccount((SavingAccount) bankAccount));
+        }
+        else {
+            accountOperationDTO.setBankAccountDTO(fromCurrentBankAccount((CurrentAccount) bankAccount));
+        }
+        return accountOperationDTO;
+    }
+
+    @Override
+    public AccountOperation fromAccountOperationDTO(AccountOperationDTO accountOperationDTO) {
+        AccountOperation accountOperation = new AccountOperation();
+        BeanUtils.copyProperties(accountOperationDTO, accountOperation);
+        BankAccountDTO bankAccountDTO = accountOperationDTO.getBankAccountDTO();
+        if(bankAccountDTO instanceof SavingBankAccountDTO){
+            accountOperation.setBankAccount(fromSavingBankAccountDTO((SavingBankAccountDTO) bankAccountDTO));
+        }
+        else {
+            accountOperation.setBankAccount(fromCurrentBankAccountDTO((CurrentBankAccountDTO) bankAccountDTO));
+        }
+        return accountOperation;
+    }
+
 
 
 }
